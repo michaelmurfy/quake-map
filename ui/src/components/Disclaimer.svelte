@@ -15,4 +15,3 @@
     <a href="//gns.cri.nz">GNS Science</a> under the Creative Commons license.
     <a href="//github.com/aSmallChild/quake-map">View on github</a>.
 </div>
-

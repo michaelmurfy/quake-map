@@ -1,25 +1,29 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [svelte()],
+    plugins: [
+        svelte({
+            hot: !process.env.VITEST,
+            compilerOptions: {
+                // Ensure client-side compilation
+                generate: 'dom',
+                hydratable: false,
+            }
+        })
+    ],
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './src'),
         },
+        conditions: ['browser'],
     },
     test: {
         globals: true,
         environment: 'jsdom',
-        // Remove setupFiles if you don't have vitest.setup.js
-        // setupFiles: ['./vitest.setup.js']
-        alias: {
-            '@': path.resolve(__dirname, './src'),
-        },
     },
 });

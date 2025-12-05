@@ -1,12 +1,17 @@
 <script>
     import {shrinkIn} from '../lib/util.js';
 
-    export let stats;
-    let element;
+    let { stats } = $props();
+    let element = $state();
 
-    $: stats && element && shrinkIn(element);
-    $: clients = !stats || stats.connected_clients == 1 ? 'client' : 'clients';
-    $: viewers = !stats || stats.unique_connections == 1 ? 'viewer' : 'viewers';
+    $effect(() => {
+        if (stats && element) {
+            shrinkIn(element);
+        }
+    });
+
+    let clients = $derived(!stats || stats.connected_clients == 1 ? 'client' : 'clients');
+    let viewers = $derived(!stats || stats.unique_connections == 1 ? 'viewer' : 'viewers');
 </script>
 
 {#if stats}

@@ -1,6 +1,5 @@
 import Quake from '../src/lib/quake.js';
 
-
 test('Quake.equals()', () => {
     for (let i = 0; i < 100; i++) {
         const quakeJSON = {
@@ -21,4 +20,4 @@ test('Quake.equals()', () => {
         expect(quake1.equals(quake1)).toEqual(true);
         expect(quake1.equals(quake2)).toEqual(true);
     }
-})
+});

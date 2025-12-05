@@ -1,20 +1,26 @@
 <script>
     import {createMap} from '../lib/map.js';
     import {onQuakeMap, mapStyleBuilder} from '../lib/map-style-pipboy.js';
-    import {onMount} from 'svelte';
     import {addSocketListener, sendMessage} from '../lib/client-socket-handler.js';
 
-    let quakeInfoContainer, mapContainer;
+    let quakeInfoContainer = $state();
+    let mapContainer = $state();
 
-    onMount(async () => {
+    $effect(() => {
         document.body.classList.add('pipboy');
-        await createMap(mapContainer, quakeInfoContainer, mapStyleBuilder, onQuakeMap);
-        sendMessage('sync');
+        createMap(mapContainer, quakeInfoContainer, mapStyleBuilder, onQuakeMap).then(() => {
+            sendMessage('sync');
+        });
+
         addSocketListener(event => {
             if (event == 'open') {
                 sendMessage('sync');
             }
-        })
+        });
+
+        return () => {
+            document.body.classList.remove('pipboy');
+        };
     });
 </script>
 
@@ -24,4 +30,3 @@
 <style lang="scss" global>
   @import "../css/pipboy.scss";
 </style>
-

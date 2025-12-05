@@ -14,7 +14,7 @@ export function addSocketListener(onMessage) {
 }
 
 export function removeSocketListener(onMessage) {
-    messageCallbacks.remove(onMessage);
+    messageCallbacks.delete(onMessage);
 }
 
 export function handleMessage(message) {
@@ -60,12 +60,12 @@ export function connectSocket(host = import.meta.env.VITE_API_HOST) {
         });
         socket.addEventListener('error', event => {
             handleMessage(['error', event]);
-            console.log('Socket error:', event);
+            console.error('Socket error:', event);
         });
-        socket.addEventListener('close', () => {
+        socket.addEventListener('close', event => {
             handleMessage(['close', null]);
             disconnectSocket();
-            console.log('Socket closed, reconnecting...');
+            console.log('Socket closed, reconnecting...', event);
             reconnectSocket(host);
         });
         return true;
