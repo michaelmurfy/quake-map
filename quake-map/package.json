@@ -9,7 +9,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "deploy": "npm run build && wrangler pages deploy dist"
+    "deploy": "npm run build && wrangler pages deploy dist",
+    "deploy-prod": "npm run build && wrangler pages deploy dist --branch master"
   },
   "dependencies": {
     "@quake/shared": "*"
